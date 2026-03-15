@@ -1,0 +1,16 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Data
+data/raw/synthetic_clinical_data.csv
+
+# OS
+.DS_Store
+.localized
+
+# IDE
+.vscode/
