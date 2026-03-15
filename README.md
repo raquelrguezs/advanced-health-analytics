@@ -15,8 +15,15 @@ This repository contains a professional clinical data analytics project focused 
 - **Advanced Visualization**: Clinical correlation heatmaps and survival analysis (Time to Readmission).
 - **Machine Learning Risk Scoring**: Training and comparing Logistic Regression and Random Forest models for patient risk stratification.
 
-## Current Status
-- [x] Phase 1: Data Ingestion & Cleansing (Complete)
-- [x] Phase 2: Statistical Insight & Clinical Profiling (Complete)
-- [/] Phase 3: Advanced Visualization & Dashboarding (In Progress)
-- [ ] Phase 4: Risk Scoring Model
+## Key Achievements
+- **Comprehensive Pipeline**: Successfully implemented a multi-stage clinical analytics pipeline.
+- **Model Performance**: Achieved high accuracy in predicting hospital readmission risk.
+- **In-depth Insights**: Developed actionable clinical insights through advanced statistical profiling.
+
+## How to Run
+1. Clone the repository.
+2. Install dependencies: `pip install -r requirements.txt`. (Note: Ensure you have a virtual environment).
+3. Explore the `notebooks/` directory in order (01 to 04).
+
+## Author
+**Raquel Rodríguez** - Clinical Data Analyst & AI Enthusiast
