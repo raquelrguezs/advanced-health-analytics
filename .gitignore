@@ -4,9 +4,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 .ipynb_checkpoints/
+pytest_cache/
+.pytest_cache/
 
-# Data
+# Data (Ignore raw and processed CSVs to keep Repo light)
 data/raw/synthetic_clinical_data.csv
+data/processed/*.csv
 
 # OS
 .DS_Store
@@ -14,3 +17,5 @@ data/raw/synthetic_clinical_data.csv
 
 # IDE
 .vscode/
+.idea/
+.ipynb_checkpoints/

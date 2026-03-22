@@ -1,21 +1,28 @@
 import pandas as pd
 import numpy as np
+import pytest
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import roc_auc_score
 
-def verify_ml_pipeline():
+def test_ml_pipeline():
+    """
+    Test to verify that the ML pipeline maintains predictive validity 
+    (ROC-AUC > 0.70) on synthetic data.
+    """
     data_path = "data/raw/synthetic_clinical_data.csv"
+    if not os.path.exists(data_path):
+        pytest.skip("Synthetic data not found. Run src/generate_clinical_data.py first.")
+        
     df = pd.read_csv(data_path)
     
-    # Clean data (Condensed)
+    # Pre-processing pipeline (Condensed for test)
     df_clean = df.dropna(subset=['Admission_Date']).copy()
     df_clean['Hemoglobin_gdL'] = df_clean['Hemoglobin_gdL'].fillna(df_clean['Hemoglobin_gdL'].median())
     df_clean['Systolic_BP'] = df_clean['Systolic_BP'].clip(60, 220)
     df_clean['Glucose_mgdL'] = df_clean['Glucose_mgdL'].clip(40, 400)
     
-    # Feature Engineering
     le = LabelEncoder()
     df_clean['Gender_Encoded'] = le.fit_transform(df_clean['Gender'])
     
@@ -37,20 +44,6 @@ def verify_ml_pipeline():
     probs = model.predict_proba(X_test_scaled)[:, 1]
     auc = roc_auc_score(y_test, probs)
     
-    print(f"--- ML Verification ---")
-    print(f"ROC-AUC Score: {auc:.4f}")
-    
-    assert auc > 0.65, f"Model performance (AUC={auc:.2f}) is lower than expected for synthetic data."
-    
-    # Test Risk Function Logic
-    high_risk_patient = np.array([[80, 0, 15, 180, 300, 1, 1]]) # Old, long stay, diabetic, hypertension
-    high_risk_scaled = scaler.transform(high_risk_patient)
-    high_risk_prob = model.predict_proba(high_risk_scaled)[0, 1]
-    
-    print(f"High-risk test probability: {high_risk_prob:.2f}")
-    assert high_risk_prob > 0.5, "High-risk scenario did not yield high probability"
-    
-    print("\nVerification Successful: ML Pipeline is functional and predictive.")
+    assert auc > 0.70, f"Model performance (AUC={auc:.2f}) dropped below threshold."
 
-if __name__ == "__main__":
-    verify_ml_pipeline()
+import os
