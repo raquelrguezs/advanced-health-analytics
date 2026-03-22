@@ -1,35 +1,40 @@
-# Executive Report: 30-Day Hospital Readmission Prediction
+# Clinical Analysis Report: 30-Day Readmission Risk Engine
 **Project:** Advanced Health Analytics Framework  
-**Date:** March 15, 2026  
-**Analyst:** Raquel Rodriguez  
+**Date:** March 22, 2026  
+**Analyst:** Raquel Rodriguez
 
 ---
 
-## 1. Executive Summary
-This report details the findings and predictive performance of the Hospital Readmission Risk model. Utilizing a synthetic dataset of 12,000 patient records, we have developed a machine learning engine capable of identifying high-risk individuals with **85% accuracy (ROC-AUC: 0.85)**. This tool provides clinical stakeholders with actionable insights to prioritize post-discharge interventions and reduce preventable hospital readmissions.
+## 1. Objective
+Identify high-risk individuals for 30-day hospital readmission using synthetic EHR data to enable targeted post-discharge clinical interventions.
 
-## 2. Key Clinical Drivers
-Through advanced statistical profiling (Chi-Square & T-Tests), we identified three primary factors driving readmission risk:
+## 2. Methodology
+- **Data Source:** Synthetic clinical dataset (12,000 records).
+- **Inclusion Criteria:** Patients with complete vital signs and demographic markers.
+- **Statistical Approach:** Feature selection via ANOVA and Chi-Square tests to identify clinical drivers (Diabetes, Age, Length of Stay).
+- **Modeling:** Random Forest Classifier optimized for Clinical Recall.
 
-*   **Diabetes Comorbidity**: Patients with diabetes are **45% more likely** to be readmitted within 30 days compared to the non-diabetic population.
-*   **Length of Stay (LoS)**: There is a direct correlation between initial hospital stay duration and readmission risk. Patients staying longer than 7 days represent a significantly higher hazard group.
-*   **Age Factor**: Predictive signals indicate that patients in the 65-80 age bracket require more specialized discharge planning.
+## 3. Technical Performance (Validated)
+The following metrics reflect the model's performance on the hold-out test set. 
 
-## 3. Technical Performance
-The predictive model was evaluated using standard clinical data science metrics:
-
-| Metric | Performance | Interpretation |
+| Metric | Performance | Clinical Interpretation |
 | :--- | :--- | :--- |
-| **ROC-AUC** | **0.85** | Excellent ability to distinguish between high and low-risk patients. |
-| **Precision** | 0.82 | High confidence in identified True Positive cases. |
-| **Recall** | 0.79 | Captures nearly 80% of all potential readmissions. |
+| **ROC-AUC** | **0.8553** | Strong capacity to rank patients by readmission probability. |
+| **Recall (Readm)** | **0.98** | High sensitivity: Successfully captures 98% of patients who were readmitted. |
+| **Precision (Readm)** | **0.91** | High confidence: 91% of flagged patients required actual readmission. |
+| **Recall (Stable)** | **0.12** | Limitation: Low ability to identify patients who will definitely NOT be readmitted. |
 
-## 4. Strategic Recommendations
-To optimize patient outcomes and hospital resource utilization, we recommend the following:
+> **Strategic Note on Class Imbalance**: The dataset exhibits a 90% readmission prevalence. While this yields high accuracy (90%), the model is biased toward "high-risk" classification. Future iterations require class balancing (SMOTE) to improve specificity for lower-risk populations.
 
-1.  **High-Risk Flags**: Integrate the `predict_readmission_risk` function into the patient discharge workflow to automatically flag "High Risk" individuals.
-2.  **Targeted Follow-up**: Implement a 48-hour post-discharge follow-up protocol specifically for diabetic patients who stayed >7 days.
-3.  **Data-Driven Discharge**: Use the LoS-risk density findings to adjust discharge criteria for geriatric patients.
+## 4. Clinical Insights
+Through feature importance analysis, we identified two primary risk escalators:
+- **Diabetes Comorbidity**: Correlated with a significant increase in 30-day return risk.
+- **Length of Stay (>7 Days)**: Acts as a primary complexity marker for geriatric discharge planning.
+
+## 5. Strategic Recommendations
+1. **Targeted Follow-up**: Implement a 48-hour tele-health check for diabetic patients with LoS > 7 days.
+2. **Triage Automation**: Standardize the `predict_readmission_risk` scorer in the Electronic Health Record (EHR) discharge module.
+3. **Pre-discharge Education**: Strengthen medication reconciliation for patients flagged as "High Risk".
 
 ---
 **Confidential Clinical Analysis**  
